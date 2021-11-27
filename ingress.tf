@@ -140,7 +140,7 @@ resource "aws_route53_record" "my_box_api" {
 
 resource "aws_route53_record" "keycloak" {
   zone_id = var.bharathk_in_hosted_zone_id
-  name    = "keycloak"
+  name    = "auth"
   type    = "A"
   ttl     = "300"
   records = [
