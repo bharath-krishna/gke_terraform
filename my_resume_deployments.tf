@@ -24,17 +24,33 @@ resource "kubernetes_deployment" "my_resume" {
 
       spec {
         container {
-          image = "krishbharath/my_resume:v2021"
+          image = "krishbharath/my_resume"
           name  = "my-resume"
 
-          resources {
-            limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
-            }
-            requests = {
-              cpu    = "250m"
-              memory = "50Mi"
+          # resources block not required in autopilot mode.
+          # Pods are virtically auto scaled
+          # resources {
+          #   limits = {
+          #     cpu    = "200"
+          #     memory = "200Mi"
+          #   }
+          #   requests = {
+          #     cpu    = "100m"
+          #     memory = "50Mi"
+          #   }
+          # }
+
+          security_context {
+            allow_privilege_escalation = false
+            privileged                 = false
+            read_only_root_filesystem  = false
+            run_as_non_root            = false
+
+            capabilities {
+              add = []
+              drop = [
+                "NET_RAW",
+              ]
             }
           }
 
@@ -58,7 +74,7 @@ resource "kubernetes_deployment" "my_resume" {
   }
 
   depends_on = [
-    google_container_node_pool.primary_preemptible_nodes
+    google_container_cluster.primary
   ]
 }
 

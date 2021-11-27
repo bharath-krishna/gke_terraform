@@ -40,37 +40,65 @@ resource "kubernetes_deployment" "gogin_framework" {
             }
           }
 
-          resources {
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
+          security_context {
+            allow_privilege_escalation = false
+            privileged                 = false
+            read_only_root_filesystem  = false
+            run_as_non_root            = false
+
+            capabilities {
+              add = []
+              drop = [
+                "NET_RAW",
+              ]
             }
-            requests = {
-              cpu    = "100m"
-              memory = "100Mi"
+          }
+          port {
+            container_port = local.gogin_target_port
+          }
+
+          readiness_probe {
+            http_get {
+              path = "/swagger/index.html"
+              port = local.gogin_target_port
+              scheme = "HTTP"
+
+              http_header {
+                name  = "X-Custom-Header"
+                value = "HealthCheck"
+              }
             }
+
+            initial_delay_seconds = 15
+            period_seconds = 15
+            failure_threshold = 5
+            success_threshold = 2
           }
 
           liveness_probe {
             http_get {
               path = "/swagger/index.html"
               port = local.gogin_target_port
+              scheme = "HTTP"
 
               http_header {
                 name  = "X-Custom-Header"
-                value = "Awesome"
+                value = "HealthCheck"
               }
             }
 
-            initial_delay_seconds = 3
-            period_seconds        = 3
+            initial_delay_seconds = 15
+            period_seconds = 15
+            failure_threshold = 5
+            success_threshold = 1
+            timeout_seconds = 5
           }
         }
       }
     }
   }
   depends_on = [
-    google_container_node_pool.primary_preemptible_nodes
+    google_container_cluster.primary
   ]
 }
 
