@@ -82,7 +82,8 @@ resource "kubernetes_deployment" "keycloak" {
     }
   }
   depends_on = [
-    google_container_cluster.primary
+    google_container_cluster.primary,
+    kubernetes_secret.docker_creds
   ]
 }
 
@@ -113,7 +114,9 @@ resource "kubernetes_service" "keycloak" {
 resource "kubernetes_secret" "docker_creds" {
   metadata {
     name = "docker-creds"
-    labels = kubernetes_deployment.keycloak.metadata.0.labels
+    labels = {
+      app = "keycloak"
+    }
   }
   data = {
     "docker_server" = "docker.io"
