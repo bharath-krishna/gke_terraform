@@ -7,7 +7,7 @@
 #   }
 
 #   spec {
-#     replicas = 1
+#     replicas = var.profile_enabled ? 1 : 0
 
 #     selector {
 #       match_labels = {
@@ -185,6 +185,8 @@
 # }
 
 # resource "kubernetes_config_map" "my_box_ui_config_map" {
+#   count = var.profile_enabled ? 1 : 0
+
 #   metadata {
 #     name = "my-box-ui-config-map"
 #   }

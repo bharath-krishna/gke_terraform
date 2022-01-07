@@ -7,7 +7,7 @@ resource "kubernetes_deployment" "my_resume" {
   }
 
   spec {
-    replicas = 1
+    replicas = var.profile_enabled ? 1 : 0
 
     selector {
       match_labels = {

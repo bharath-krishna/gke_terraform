@@ -52,3 +52,9 @@ variable "next_public_firebase_app_name" {
   type      = string
   sensitive = true
 }
+
+variable "vercel_app_domain_cname" {
+  type      = string
+  sensitive = true
+}
+

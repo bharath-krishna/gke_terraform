@@ -111,17 +111,36 @@ resource "kubernetes_service" "keycloak" {
 }
 
 
+# resource "kubernetes_secret" "docker_creds" {
+#   type = "docker_server"
+#   metadata {
+#     name = "docker-creds"
+#     labels = {
+#       app = "keycloak"
+#     }
+#   }
+#   data = {
+#     "docker_server" = "docker.io"
+#     "docker_username" = var.docker_username
+#     "docker_password" = var.docker_password
+#     "docker_email" = var.docker_email
+#   }
+# }
+
 resource "kubernetes_secret" "docker_creds" {
   metadata {
     name = "docker-creds"
-    labels = {
-      app = "keycloak"
-    }
   }
+
   data = {
-    "docker_server" = "docker.io"
-    "docker_username" = var.docker_username
-    "docker_pasword" = var.docker_password
-    "docker_email" = var.docker_email
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "${var.docker_server}" = {
+          auth = "${base64encode("${var.docker_username}:${var.docker_password}")}"
+        }
+      }
+    })
   }
+
+  type = "kubernetes.io/dockerconfigjson"
 }

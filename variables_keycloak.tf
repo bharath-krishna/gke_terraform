@@ -1,3 +1,8 @@
+variable "docker_server" {
+  type = string
+  sensitive = true
+}
+
 variable "docker_username" {
   type = string
   sensitive = true
