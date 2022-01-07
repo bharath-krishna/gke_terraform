@@ -27,18 +27,18 @@ resource "kubernetes_ingress" "services" {
       }
     }
 
-    # rule {
-    #   host = "gogin.${local.personal_hosted_zone}"
-    #   http {
-    #     path {
-    #       backend {
-    #         service_name = kubernetes_service.gogin_framework.metadata.0.name
-    #         service_port = local.gogin_target_port
-    #       }
-    #       path = "/*"
-    #     }
-    #   }
-    # }
+    rule {
+      host = "gogin.${local.personal_hosted_zone}"
+      http {
+        path {
+          backend {
+            service_name = kubernetes_service.gogin_framework.metadata.0.name
+            service_port = local.gogin_target_port
+          }
+          path = "/*"
+        }
+      }
+    }
 
     # rule {
     #   host = "box-ui.${local.personal_hosted_zone}"
@@ -102,19 +102,19 @@ resource "kubernetes_ingress" "services" {
   ]
 }
 
-# resource "aws_route53_record" "gogin" {
-#   zone_id = var.bharathk_in_hosted_zone_id
-#   name    = "gogin"
-#   type    = "A"
-#   ttl     = "300"
-#   records = [
-#     kubernetes_ingress.services.status.0.load_balancer.0.ingress.0.ip
-#   ]
-#   allow_overwrite = true
-#   depends_on = [
-#     kubernetes_ingress.services
-#   ]
-# }
+resource "aws_route53_record" "gogin" {
+  zone_id = var.bharathk_in_hosted_zone_id
+  name    = "gogin"
+  type    = "A"
+  ttl     = "300"
+  records = [
+    kubernetes_ingress.services.status.0.load_balancer.0.ingress.0.ip
+  ]
+  allow_overwrite = true
+  depends_on = [
+    kubernetes_ingress.services
+  ]
+}
 
 resource "aws_route53_record" "root_domain" {
   zone_id = var.bharathk_in_hosted_zone_id
