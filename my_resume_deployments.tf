@@ -24,7 +24,7 @@ resource "kubernetes_deployment" "my_resume" {
 
       spec {
         container {
-          image = "krishbharath/my_resume"
+          image = "krishbharath/my_resume:2022"
           name  = "my-resume"
 
           # resources block not required in autopilot mode.
