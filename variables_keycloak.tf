@@ -1,19 +1,19 @@
 variable "docker_server" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "docker_username" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "docker_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "docker_email" {
-  type = string
+  type      = string
   sensitive = true
 }

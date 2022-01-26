@@ -29,16 +29,16 @@ variable "bharathk_in_hosted_zone_id" {
 }
 
 variable "profile_enabled" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "tls_cert" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "tls_key" {
-  type = string
+  type      = string
   sensitive = true
 }

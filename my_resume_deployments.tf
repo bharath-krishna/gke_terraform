@@ -74,7 +74,8 @@ resource "kubernetes_deployment" "my_resume" {
   }
 
   depends_on = [
-    google_container_cluster.primary
+    google_container_cluster.primary,
+    google_container_node_pool.primary_preemptible_nodes
   ]
 }
 

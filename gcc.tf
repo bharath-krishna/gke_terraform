@@ -47,7 +47,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   name           = local.gke_node_pool_name
   location       = local.gcp_region
   cluster        = google_container_cluster.primary.name
-  node_count     = 3
+  node_count     = 2
   node_locations = local.gcp_zones
 
   node_config {

@@ -48,33 +48,33 @@ resource "kubernetes_deployment" "keycloak" {
 
           readiness_probe {
             http_get {
-              path = "/auth/realms/master"
-              port = local.keycloak_port
+              path   = "/auth/realms/master"
+              port   = local.keycloak_port
               scheme = "HTTP"
             }
 
             initial_delay_seconds = 90
-            period_seconds = 30
-            failure_threshold = 3
-            success_threshold = 1
-            timeout_seconds = 5
+            period_seconds        = 30
+            failure_threshold     = 3
+            success_threshold     = 1
+            timeout_seconds       = 5
           }
 
           liveness_probe {
             http_get {
-              path = "/auth/realms/master"
-              port = local.keycloak_port
+              path   = "/auth/realms/master"
+              port   = local.keycloak_port
               scheme = "HTTP"
             }
 
             initial_delay_seconds = 90
-            period_seconds = 30
-            failure_threshold = 3
-            success_threshold = 1
-            timeout_seconds = 5
+            period_seconds        = 30
+            failure_threshold     = 3
+            success_threshold     = 1
+            timeout_seconds       = 5
           }
 
-           port {
+          port {
             container_port = local.keycloak_port
           }
         }
@@ -83,6 +83,7 @@ resource "kubernetes_deployment" "keycloak" {
   }
   depends_on = [
     google_container_cluster.primary,
+    google_container_node_pool.primary_preemptible_nodes,
     kubernetes_secret.docker_creds
   ]
 }

@@ -6,11 +6,11 @@ locals {
     "configuration-as-code:1.55"
   ]
   service_port = "8080"
-  target_port = "8080"
+  target_port  = "8080"
 }
 
 resource "helm_release" "jenkinsci" {
-  name       = "jenkinsci"
+  name = "jenkinsci"
 
   repository = "https://charts.jenkins.io"
   chart      = "jenkins"
@@ -41,28 +41,38 @@ resource "helm_release" "jenkinsci" {
   }
 
   set {
-    name = "persistence.size"
+    name  = "persistence.size"
     value = "50Gi"
   }
 
   set {
-    name = "controller.installPlugins"
+    name  = "controller.installPlugins"
     value = "{${join(",", local.pre_installed_plugins)}}"
   }
 
   set {
-    name = "serviceAccount.create"
+    name  = "serviceAccount.create"
     value = "true"
   }
 
   set {
-    name = "serviceAccount.name"
+    name  = "serviceAccount.name"
     value = "jenkins"
   }
 
   depends_on = [
-    kubernetes_persistent_volume.jenkins_pv
+    kubernetes_persistent_volume.jenkins_pv,
+    google_container_node_pool.primary_preemptible_nodes
   ]
+}
+
+resource "google_compute_disk" "my_gke_disk" {
+  name                      = "my-gke-disk"
+  size                      = 100
+  project                   = var.project_name
+  type                      = "pd-balanced"
+  zone                      = "asia-northeast1-b"
+  physical_block_size_bytes = 4096
 }
 
 resource "kubernetes_persistent_volume" "jenkins_pv" {
@@ -73,13 +83,16 @@ resource "kubernetes_persistent_volume" "jenkins_pv" {
     capacity = {
       storage = "50Gi"
     }
-    access_modes = ["ReadWriteMany"]
+    access_modes       = ["ReadWriteMany"]
     storage_class_name = "jenkins-pv"
     persistent_volume_source {
       gce_persistent_disk {
         fs_type = "ext4"
-        pd_name = "my-gke-disk"
+        pd_name = google_compute_disk.my_gke_disk.name
       }
     }
   }
+  depends_on = [
+    google_container_node_pool.primary_preemptible_nodes
+  ]
 }

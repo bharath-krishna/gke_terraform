@@ -51,16 +51,16 @@ resource "kubernetes_deployment" "my_box_api" {
             }
           }
 
-        #   resources {
-        #     limits = {
-        #       cpu    = "200m"
-        #       memory = "256Mi"
-        #     }
-        #     requests = {
-        #       cpu    = "100m"
-        #       memory = "126Mi"
-        #     }
-        #   }
+          #   resources {
+          #     limits = {
+          #       cpu    = "200m"
+          #       memory = "256Mi"
+          #     }
+          #     requests = {
+          #       cpu    = "100m"
+          #       memory = "126Mi"
+          #     }
+          #   }
 
           security_context {
             allow_privilege_escalation = false
@@ -95,7 +95,8 @@ resource "kubernetes_deployment" "my_box_api" {
     }
   }
   depends_on = [
-    google_container_cluster.primary
+    google_container_cluster.primary,
+    google_container_node_pool.primary_preemptible_nodes
   ]
 }
 

@@ -10,7 +10,7 @@ resource "kubernetes_ingress" "services" {
 
   spec {
     tls {
-      hosts = [local.personal_hosted_zone]
+      hosts       = [local.personal_hosted_zone]
       secret_name = kubernetes_secret.tls_cert_key.metadata.0.name
     }
 
@@ -87,7 +87,7 @@ resource "kubernetes_ingress" "services" {
             service_name = kubernetes_service.keycloak.metadata.0.name
             service_port = local.keycloak_port
           }
-        path = "/*"
+          path = "/*"
         }
       }
     }
