@@ -1,0 +1,35 @@
+{
+    "project_name"     : "string",
+    "service_account_id" : "string",
+    "sa_display_name"      : "string",
+    "aws_access_key" : "string",
+    "aws_secret_key" : "string",
+    "bharathk_in_hosted_zone_id": "string",
+    
+    "next_public_api_host" : "string",
+    "firebase_client_email" : "string",
+    "next_public_firebase_public_api_key" : "string",
+    "next_public_firebase_auth_domain" : "string",
+    "next_public_firebase_database_url" : "string",
+    "next_public_firebase_project_id" : "string",
+    "firebase_private_key" : "string",
+    "cookie_secret_current" : "string",
+    "cookie_secret_previous" : "string",
+    "next_public_cookie_secure" : "string",
+    "next_public_firebase_app_name" : "string",
+    "vercel_app_domain_cname": "string",
+  
+    "api_firebase_configs": "string",
+    "box_api_origins": "string",
+    "docker_server": "string",
+    "docker_username": "string",
+    "docker_password": "string",
+    "docker_email": "string",
+    "profile_enabled": "boolean",
+  
+    "jenkins_admin_username": "string",
+    "jenkins_admin_password": "string",
+    
+    "tls_cert": "string",
+    "tls_key": "string"
+  }
