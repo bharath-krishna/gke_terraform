@@ -34,6 +34,7 @@ resource "google_container_cluster" "primary" {
   project  = var.project_name
   name     = local.gke_cluster_name
   location = local.gcp_region
+  node_locations = [local.gcp_zones[0]]
 
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
