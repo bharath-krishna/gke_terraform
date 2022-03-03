@@ -66,14 +66,14 @@
 #   ]
 # }
 
-resource "google_compute_disk" "my_gke_disk" {
-  name                      = "my-gke-disk"
-  size                      = 100
-  project                   = var.project_name
-  type                      = "pd-balanced"
-  zone                      = "asia-northeast1-b"
-  physical_block_size_bytes = 4096
-}
+# resource "google_compute_disk" "my_gke_disk" {
+#   name                      = "my-gke-disk"
+#   size                      = 100
+#   project                   = var.project_name
+#   type                      = "pd-balanced"
+#   zone                      = "asia-northeast1-b"
+#   physical_block_size_bytes = 4096
+# }
 
 # resource "kubernetes_persistent_volume" "jenkins_pv" {
 #   metadata {
